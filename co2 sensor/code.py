@@ -44,7 +44,7 @@ display = ST7789(display_bus, width=240, height=240, rowstart=80, bgr=True, inve
 
 # Setup the file as the bitmap data source
 
-pick=random.randint(1,9)
+pick=random.randint(1,5)
 
 bitmap = displayio.OnDiskBitmap(f"/{pick}.bmp")
 
@@ -57,6 +57,7 @@ group = displayio.Group()
 # Add the TileGrid to the Group
 group.append(tile_grid)
 
+chance_of_haley=1#out of 100
 
 # Add the Group to the Display
 display.root_group = group
@@ -73,6 +74,43 @@ display.root_group = group
 #     group.append(tile_grid)
 #     # Add the Group to the Display
 #     display.root_group = group
+time.sleep(1)
+def run_vid():
+    for i in range(1,74):
+        time.sleep(0.2)
+        bitmap = displayio.OnDiskBitmap(f"haley_video/frame_0{i+1:02d}.bmp")
+        # Create a TileGrid to hold the bitmap
+        tile_grid = displayio.TileGrid(bitmap, pixel_shader=bitmap.pixel_shader)
+        # Create a Group to hold the TileGrid
+        text1 = f"watch this video"
+        text_area_1 = label.Label(terminalio.FONT, text=text1, color=0xFFFF00,scale=1)
+        text2=f"of haley "
+        text_area_2 = label.Label(terminalio.FONT, text=text2, color=0xFFFF00,scale=1)
+        text3=f"drinking blood"
+        text_area_3 = label.Label(terminalio.FONT, text=text3, color=0xFFFF00,scale=1)
+        text_area_1.x = 145
+        text_area_1.y = 80
+        text_area_2.x = 145
+        text_area_2.y = 100
+        text_area_3.x = 145
+        text_area_3.y = 120
+        
+        group = displayio.Group()
+        # Add the TileGrid to the Group
+        group.append(tile_grid)
+        group.append(text_area_1)
+        group.append(text_area_2)
+        group.append(text_area_3)
+        display.root_group = group
+    bitmap = displayio.OnDiskBitmap(f"haley_video/frame_0{74}.bmp")
+    # Create a TileGrid to hold the bitmap
+    tile_grid = displayio.TileGrid(bitmap, pixel_shader=bitmap.pixel_shader)
+    group.append(tile_grid)
+    display.root_group = group#,
+    time.sleep(2)
+
+if random.randint(0,100)<chance_of_haley:
+    run_vid()
 
 # Loop forever so you can enjoy your image
 while True:
